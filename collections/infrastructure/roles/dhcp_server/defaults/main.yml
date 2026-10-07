@@ -13,6 +13,9 @@ dhcp_server_max_lease_time: 7200
 # It is possible using these settings to bind to an non BlueBanquise iPXE Rom.
 dhcp_server_ipxe_driver: snponly
 dhcp_server_ipxe_embed: dhcpretry
+# Script URL handed to iPXE clients, for iPXE ROMs without the BlueBanquise
+# embedded script (distribution packages). Unset keeps the default behavior.
+dhcp_server_ipxe_chain_url:
 
 ### Enable and/or start services ###
 # These values can be set in inventory to manipulate

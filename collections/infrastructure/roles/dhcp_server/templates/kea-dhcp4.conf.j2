@@ -67,6 +67,16 @@
     # HTTP boot classes (arch_*_http_boot) are detection-only; per-subnet subclasses
     # carry the actual boot-file-name so the URL uses each subnet's next-server address.
     "client-classes": [
+    {# iPXE builds without the BlueBanquise embedded script run DHCP again and
+       would load themselves forever. Once iPXE runs, hand it the script
+       instead. Listed first: the first class setting an option wins. #}
+    {% if dhcp_server_ipxe_chain_url is defined and dhcp_server_ipxe_chain_url is not none %}
+      {
+        "name": "ipxe_chain",
+        "test": "substring(option[77].hex, 0, 4) == 'iPXE'",
+        "option-data": [ { "name": "boot-file-name", "data": "{{ dhcp_server_ipxe_chain_url }}" } ]
+      },
+    {% endif %}
       {
         "name": "arch_x86_legacy",
         "test": "option[93].hex == 0x0000",

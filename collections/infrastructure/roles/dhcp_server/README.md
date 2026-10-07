@@ -69,6 +69,7 @@ override default ones:
 * `dhcp_server_max_lease_time` (default to 7200) to set max lease time
 * `dhcp_server_ipxe_driver` to set ipxe default EFI driver (see main BlueBanquise documentation, equipment profiles variables)
 * `dhcp_server_ipxe_embed` to set ipxe default embed script (see main BlueBanquise documentation, equipment profiles variables)
+* `dhcp_server_ipxe_chain_url` to hand iPXE clients their first script directly, e.g. `http://10.10.0.1/pxe/convergence.ipxe`. Needed with iPXE ROMs that lack the BlueBanquise embedded script, such as the distribution `ipxe-bootimgs` packages: without it they run DHCP again, receive their own file name and reload forever. Unset by default.
 
 Consider increasing the default leases values once your network is production ready.
 
