@@ -4,8 +4,10 @@
 
 # Shared networks
 {% set shared_networks = {} %}
+{# Same filter as the task rendering kea-dhcp4.<network>.conf: an include
+   of a network it skipped makes Kea refuse to start. #}
 {% for network in networks %}
-  {% if network.startswith("net-") %}
+  {% if network.startswith("net-") and (networks[network].dhcp_server | default(true)) and networks[network].subnet is defined and networks[network].prefix is defined %}
     {% if networks[network]['shared_network'] is defined and networks[network]['shared_network'] is not none %}
       {% set name = networks[network]['shared_network'] %}
       {% if shared_networks[name] is not defined %}
@@ -27,7 +29,7 @@
 # Not shared networks
 {% set standalone_networks = [] %}
 {% for network in networks %}
-  {% if network.startswith("net-") and (networks[network]['shared_network'] is not defined or networks[network]['shared_network'] is none) %}
+  {% if network.startswith("net-") and (networks[network].dhcp_server | default(true)) and networks[network].subnet is defined and networks[network].prefix is defined and (networks[network]['shared_network'] is not defined or networks[network]['shared_network'] is none) %}
     {% set _ = standalone_networks.append(network) %}
   {% endif %}
 {% endfor %}
