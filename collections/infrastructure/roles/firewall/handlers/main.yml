@@ -7,3 +7,19 @@
   when:
     - "'service' not in ansible_skip_tags"
     - firewall_start_services | default(bb_start_services) | default(true) | bool
+
+# firewalld 2 (EL10) reports started before it has loaded its rules, and a
+# firewalld task right after the restart then finds it "not currently
+# running". Wait until it is.
+- name: command <|> Wait for firewalld to run
+  ansible.builtin.command: firewall-cmd --state
+  register: firewall_state
+  changed_when: false
+  failed_when: false
+  retries: 30
+  delay: 2
+  until: firewall_state.stdout == 'running'
+  listen: service <|> Restart firewall services
+  when:
+    - "'service' not in ansible_skip_tags"
+    - firewall_start_services | default(bb_start_services) | default(true) | bool
