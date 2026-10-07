@@ -31,7 +31,7 @@ echo | Downloaded images report:
 imgstat
 
 echo | MD5sums:
-md5sum initrd.gz linux
+md5sum initrd.gz linux ||
 echo |
 
 echo | Booting in 4s ...
