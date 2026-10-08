@@ -4,6 +4,7 @@ Format: <date> - <author (username or mail or both)> - [role] <change descriptio
 
 # To 3.4
 
+* 2026-10-08 - edf-hpc - [plugins] nodeset and slurm_organize_equipments import ClusterShell only when they run: a controller without it warned on every run loading the filters
 * 2026-10-07 - edf-hpc - [pxe_stack] bluebanquise-bootset passes --image to the pxe stack daemon, which stores it: the diskless and clone menus always fetched the image named "none"
 * 2026-10-07 - edf-hpc - [dhcp_server] kea-dhcp4.networks.conf only includes the networks the role renders a file for: a network with dhcp_server: false made Kea fail on a missing include
 * 2026-10-07 - edf-hpc - [dhcp_server] Added dhcp_server_ipxe_chain_url, a Kea class handing iPXE its first script, for iPXE ROMs without the BlueBanquise embedded script

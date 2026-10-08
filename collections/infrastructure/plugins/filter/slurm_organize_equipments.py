@@ -1,6 +1,14 @@
 from ansible.errors import AnsibleFilterError
 from ansible.utils.display import Display
-from ClusterShell.NodeSet import NodeSet
+
+# ClusterShell is only needed when the filter runs. Imported at load time, a
+# controller without it would warn on every run that loads the filters of
+# this collection, whatever filters the run uses.
+try:
+    from ClusterShell.NodeSet import NodeSet
+    HAS_CLUSTERSHELL = True
+except ImportError:
+    HAS_CLUSTERSHELL = False
 
 
 display = Display()
@@ -13,6 +21,8 @@ class FilterModule(object):
         }
 
     def slurm_organize_equipments(self, hostvars, slurm_partitions_list, groups, hw_prefix='hw'):
+        if not HAS_CLUSTERSHELL:
+            raise AnsibleFilterError('The slurm_organize_equipments filter needs the ClusterShell python module on the controller')
         try:
             unique_all_nodes = set()
             partitions_output = {}
